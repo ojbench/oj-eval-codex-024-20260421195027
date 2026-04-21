@@ -4,7 +4,15 @@
 #include <deque>
 #include <cstddef>
 #include <iterator>
-#include "sjtu/exceptions.hpp"
+#if defined(__has_include)
+#  if __has_include("exceptions.hpp")
+#    include "exceptions.hpp"
+#  else
+#    include "sjtu/exceptions.hpp"
+#  endif
+#else
+#  include "sjtu/exceptions.hpp"
+#endif
 
 namespace sjtu {
 
