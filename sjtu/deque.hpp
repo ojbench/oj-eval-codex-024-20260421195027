@@ -48,25 +48,35 @@ public:
       return *this;
     }
     iterator operator++(int) {
+      if (!owner || it == owner->d.end()) throw invalid_iterator();
       iterator tmp = *this;
       ++it;
       return tmp;
     }
     iterator &operator++() {
+      if (!owner || it == owner->d.end()) throw invalid_iterator();
       ++it;
       return *this;
     }
     iterator operator--(int) {
+      if (!owner || it == owner->d.begin()) throw invalid_iterator();
       iterator tmp = *this;
       --it;
       return tmp;
     }
     iterator &operator--() {
+      if (!owner || it == owner->d.begin()) throw invalid_iterator();
       --it;
       return *this;
     }
-    T &operator*() const { return *it; }
-    T *operator->() const noexcept { return it.operator->(); }
+    T &operator*() const {
+      if (!owner || it == owner->d.end()) throw invalid_iterator();
+      return *it;
+    }
+    T *operator->() const noexcept(false) {
+      if (!owner || it == owner->d.end()) throw invalid_iterator();
+      return std::addressof(*it);
+    }
     bool operator==(const iterator &rhs) const { return it == rhs.it; }
     bool operator!=(const iterator &rhs) const { return it != rhs.it; }
     bool operator==(const const_iterator &rhs) const { return it == rhs.it; }
@@ -103,25 +113,35 @@ public:
       return *this;
     }
     const_iterator operator++(int) {
+      if (!owner || it == owner->d.cend()) throw invalid_iterator();
       const_iterator tmp = *this;
       ++it;
       return tmp;
     }
     const_iterator &operator++() {
+      if (!owner || it == owner->d.cend()) throw invalid_iterator();
       ++it;
       return *this;
     }
     const_iterator operator--(int) {
+      if (!owner || it == owner->d.cbegin()) throw invalid_iterator();
       const_iterator tmp = *this;
       --it;
       return tmp;
     }
     const_iterator &operator--() {
+      if (!owner || it == owner->d.cbegin()) throw invalid_iterator();
       --it;
       return *this;
     }
-    const T &operator*() const { return *it; }
-    const T *operator->() const noexcept { return it.operator->(); }
+    const T &operator*() const {
+      if (!owner || it == owner->d.cend()) throw invalid_iterator();
+      return *it;
+    }
+    const T *operator->() const noexcept(false) {
+      if (!owner || it == owner->d.cend()) throw invalid_iterator();
+      return std::addressof(*it);
+    }
     bool operator==(const iterator &rhs) const { return it == rhs.it; }
     bool operator==(const const_iterator &rhs) const { return it == rhs.it; }
     bool operator!=(const iterator &rhs) const { return it != rhs.it; }
