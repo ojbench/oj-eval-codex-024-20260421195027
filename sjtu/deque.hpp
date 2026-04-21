@@ -146,8 +146,14 @@ public:
     if (pos >= d.size()) throw index_out_of_bound();
     return d.at(pos);
   }
-  T &operator[](const size_t &pos) { return d[pos]; }
-  const T &operator[](const size_t &pos) const { return d[pos]; }
+  T &operator[](const size_t &pos) {
+    if (pos >= d.size()) throw index_out_of_bound();
+    return d[pos];
+  }
+  const T &operator[](const size_t &pos) const {
+    if (pos >= d.size()) throw index_out_of_bound();
+    return d[pos];
+  }
   const T &front() const {
     if (d.empty()) throw container_is_empty();
     return d.front();
